@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import ServerConfig from './config/server.config';
 import { MongoService } from './database/mongodb';
+import { ValidationPipe } from '@nestjs/common';
 
 async function SetupServer() {
   try {
@@ -15,6 +16,7 @@ async function SetupServer() {
 async function bootstrap() {
   await SetupServer();
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen(ServerConfig().port);
 }
 bootstrap();
