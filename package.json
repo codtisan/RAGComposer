@@ -1,0 +1,17 @@
+{
+  "name": "ragcomposer",
+  "version": "1.0.0",
+  "description": "RAGComposer: A Multimodal RAG Chatbot Orchestration Platform for Enterprise Applications",
+  "main": "main.ts",
+  "scripts": {
+    "backend": "cd backend && npm run start",
+    "start": "concurrently \"npm run backend\""
+  },
+  "workspace": [
+    "backend"
+  ],
+  "author": "Chris Chan",
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
