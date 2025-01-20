@@ -16,7 +16,11 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+      expect(appController.getHealth()).resolves.toEqual({
+        statusCode: 200,
+        message: 'OK',
+        timestamp: expect.any(Date),
+      });
     });
   });
 });
