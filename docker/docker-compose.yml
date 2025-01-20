@@ -1,0 +1,27 @@
+services:
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes: 
+      - ./data:/data/db
+    ports: 
+      - '27017:27017'
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_PASSWORD: admin
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    restart: always
+    ports:
+      - "127.0.0.1:5540:5540"
