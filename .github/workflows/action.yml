@@ -12,4 +12,4 @@ jobs:
       - name: Install packages
         run: cd backend && npm install
       - name: Run jest unit tests
-        run: echo "Run the unit tests"
+        run: cd backend && npm run test
