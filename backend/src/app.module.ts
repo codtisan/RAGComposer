@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongoService } from './database/mongodb';
 import ServerConfig from './config/server.config';
+import { RedisService } from './database/redis';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import ServerConfig from './config/server.config';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, MongoService],
+  providers: [AppService, MongoService, RedisService],
 })
 export class AppModule {}
