@@ -7,7 +7,7 @@ export default () => ({
   },
   memoryDb: {
     host: process.env.MEMORY_DB_HOST || 'localhost',
-    port: process.env.MEMORY_DB_PORT || 6379,
+    port: parseInt(process.env.MEMORY_DB_PORT) || 6379,
     password: process.env.MEMORY_DB_PASSWORD || 'admin',
   },
 });
