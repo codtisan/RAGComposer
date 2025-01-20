@@ -4,11 +4,13 @@
   "description": "RAGComposer: A Multimodal RAG Chatbot Orchestration Platform for Enterprise Applications",
   "main": "main.ts",
   "scripts": {
-    "backend": "cd backend && npm run start",
-    "start": "concurrently \"npm run backend\""
+    "start:webui": "cd webui && npm run dev",
+    "start:backend": "cd backend && npm run start",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:webui\""
   },
   "workspace": [
-    "backend"
+    "backend",
+    "webui"
   ],
   "author": "Chris Chan",
   "dependencies": {
