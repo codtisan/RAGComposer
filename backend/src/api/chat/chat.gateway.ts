@@ -1,12 +1,14 @@
-import { WebSocketGateway, SubscribeMessage } from '@nestjs/websockets';
+import { WebSocketGateway, SubscribeMessage, ConnectedSocket } from '@nestjs/websockets';
 import { ChatService } from './chat.service';
+import { Socket } from 'dgram';
 
 @WebSocketGateway()
 export class ChatGateway {
   constructor(private readonly chatService: ChatService) {}
 
-  @SubscribeMessage('createChat')
-  create() {
-    return this.chatService.create();
+  @SubscribeMessage('StartChat')
+  async create(@ConnectedSocket() client: Socket) {
+    const answer = await this.chatService.getAnswer();
+    client.emit('StartChat', answer);
   }
 }
