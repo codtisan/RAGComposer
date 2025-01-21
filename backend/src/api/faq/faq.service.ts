@@ -9,6 +9,14 @@ import { Answer } from './schema/answer.schema';
 @Injectable()
 export class FaqService {
   constructor(private readonly mongoService: MongoService) {}
+  public async validateFaq(name: string): Promise<void> {
+    const faq = await this.mongoService.find<FAQ>(Databaselist.SYSTEM, SystemCollection.FAQ, {
+      name: name,
+    });
+    if (faq) {
+      throw new Error('FAQ already exists');
+    }
+  }
   public async createFAQ(createFaqDto: CreateFaqDto, generatedAnswerId: ObjectId) {
     const newFaq: FAQ = {
       _id: new ObjectId(),
