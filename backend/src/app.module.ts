@@ -11,6 +11,7 @@ import { FaqModule } from './api/faq/faq.module';
 import { ChatModule } from './api/chat/chat.module';
 import { AuditLogMiddleware } from './middleware/audit-log.middleware';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { SearchService } from './database/elasticsearch';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { ElasticsearchModule } from '@nestjs/elasticsearch';
     ChatModule,
   ],
   controllers: [AppController],
-  providers: [AppService, MongoService, RedisService],
+  providers: [AppService, MongoService, RedisService, SearchService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
