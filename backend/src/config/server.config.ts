@@ -14,4 +14,7 @@ export default () => ({
   es: {
     url: process.env.ES_URL || 'http://localhost:9200',
   },
+  ragEngine: {
+    url: process.env.RAG_ENGINE_URL || 'http://localhost:8000',
+  },
 });
