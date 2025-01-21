@@ -12,9 +12,9 @@ export class RedisService {
       username: '',
     });
   }
-  public async set<T>(key: string, value: T): Promise<void> {
+  public async set<T>(key: string, value: T, ttl: number = 3600): Promise<void> {
     try {
-      await this.client.set(key, JSON.stringify(value));
+      await this.client.set(key, JSON.stringify(value), 'EX', ttl);
     } catch (error) {
       throw new Error(`Error setting key ${key}: ${error}`);
     }
