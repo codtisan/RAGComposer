@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateUserDto, LoginUserDto, UserLoginResponseDto } from './dto/user.dto';
+import { CreateUserDto, LoginUserDto } from './dto/user.dto';
 import { MongoService } from 'src/database/mongodb';
 import { Databaselist, SystemCollection } from 'src/config/db.config';
-import { checkPassword, hashPassword } from 'src/util/password-hash.util';
+import { hashPassword } from 'src/util/password-hash.util';
 import { User } from './schema/user.schema';
 import { JwtService } from '@nestjs/jwt';
 
@@ -26,18 +26,13 @@ export class UserService {
     await this.mongoService.insert(Databaselist.SYSTEM, SystemCollection.USERS, createUserDto);
   }
 
-  public async checkUser(loginUserDto: LoginUserDto): Promise<UserLoginResponseDto> {
+  public async checkUser(loginUserDto: LoginUserDto): Promise<User> {
     const user = await this.mongoService.find<User>(Databaselist.SYSTEM, SystemCollection.USERS, {
       email: loginUserDto.email,
     });
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
-    const isPasswordMatch = await checkPassword(loginUserDto.password, user.password);
-    if (!isPasswordMatch) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-    const token = await this.jwtService.signAsync({ email: user.email });
-    return { token };
+    return user;
   }
 }
