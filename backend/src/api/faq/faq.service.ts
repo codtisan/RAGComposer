@@ -43,4 +43,10 @@ export class FaqService {
     };
     await this.mongoService.insert<Answer>(Databaselist.SYSTEM, SystemCollection.ANSWER, newAnswer);
   }
+
+  public async getFAQ(name: string): Promise<FAQ> {
+    return await this.mongoService.find<FAQ>(Databaselist.SYSTEM, SystemCollection.FAQ, {
+      name: name,
+    });
+  }
 }

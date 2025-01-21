@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { FaqService } from './faq.service';
 import { CreateFaqDto } from './dto/faq.dto';
 import { ObjectId } from 'mongodb';
@@ -22,6 +22,17 @@ export class FaqController {
     return {
       statusCode: 200,
       message: 'FAQ created successfully',
+    };
+  }
+
+  @Get('get/:name')
+  async get(@Param('name') name: string) {
+    console.log(name);
+    const faq = await this.faqService.getFAQ(name);
+    return {
+      statusCode: 200,
+      message: 'FAQ fetched successfully',
+      data: faq,
     };
   }
 }
