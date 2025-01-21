@@ -18,7 +18,7 @@ export class UserController {
 
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto) {
-    const user = await this.userService.checkUser(loginUserDto);
+    const user = await this.userService.findUser(loginUserDto);
     const isPasswordMatch = await checkPassword(loginUserDto.password, user.password);
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Invalid credentials');

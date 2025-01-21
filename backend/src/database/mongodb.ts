@@ -35,8 +35,8 @@ export class MongoService {
 
   public async find<T>(dbName: Databaselist, col: SystemCollection, query: any): Promise<WithId<T> | null> {
     try {
-      const result = await this.client.db(dbName).collection(col).findOne(query);
-      return !result ? null : (result as WithId<T>);
+      const result = await this.client.db(dbName).collection<T>(col).findOne(query);
+      return !result ? null : result;
     } catch (error) {
       throw new Error(`Error finding documents: ${error}`);
     }
