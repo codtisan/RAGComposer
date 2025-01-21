@@ -11,7 +11,6 @@ export class RedisService {
       port: ServerConfig().memoryDb.port,
       host: ServerConfig().memoryDb.host,
       username: '',
-      password: ServerConfig().memoryDb.password,
     });
   }
   public async set<T>(key: string, value: T): Promise<void> {
