@@ -7,6 +7,7 @@ import ServerConfig from './config/server.config';
 import { RedisService } from './database/redis';
 import { UserModule } from './api/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
+import { FaqModule } from './api/faq/faq.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { JwtModule } from '@nestjs/jwt';
       signOptions: { expiresIn: '600s' },
     }),
     UserModule,
+    FaqModule,
   ],
   controllers: [AppController],
   providers: [AppService, MongoService, RedisService],
