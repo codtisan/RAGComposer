@@ -17,6 +17,22 @@ export class MongoService {
     }
   }
 
+  public async transactionStart(transactionOperations: (() => Promise<void>)[]): Promise<void> {
+    const session = this.client.startSession();
+    try {
+      session.startTransaction();
+      transactionOperations.forEach(async (tran) => {
+        await tran();
+      });
+      session.commitTransaction();
+    } catch (error) {
+      console.log('An error occurred during the transaction:' + error);
+      await session.abortTransaction();
+    } finally {
+      await session.endSession();
+    }
+  }
+
   public async insert<T>(dbName: Databaselist, col: SystemCollection, doc: T): Promise<void> {
     try {
       await this.client.db(dbName).collection(col).insertOne(doc);
