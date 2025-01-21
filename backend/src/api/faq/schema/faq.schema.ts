@@ -11,6 +11,14 @@ export class FAQ {
     question: string[];
   };
 
+  TC: {
+    question: string[];
+  };
+
+  SC: {
+    question: string[];
+  };
+
   createdAt: Date;
 
   updatedAt: Date;

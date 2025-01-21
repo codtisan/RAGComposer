@@ -5,6 +5,8 @@ export class Answer {
 
   answer: {
     EN: string;
+    TC: string;
+    SC: string;
   };
 
   createdAt: Date;

@@ -16,7 +16,23 @@ export class CreateFaqDto {
   @IsObject()
   @IsNotEmpty()
   @Type(() => Object)
+  TC: {
+    question: string[];
+  };
+
+  @IsObject()
+  @IsNotEmpty()
+  @Type(() => Object)
+  SC: {
+    question: string[];
+  };
+
+  @IsObject()
+  @IsNotEmpty()
+  @Type(() => Object)
   answer: {
     EN: string;
+    TC: string;
+    SC: string;
   };
 }

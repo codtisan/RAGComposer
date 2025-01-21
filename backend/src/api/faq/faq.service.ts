@@ -29,6 +29,12 @@ export class FaqService {
       EN: {
         question: createFaqDto.EN.question,
       },
+      TC: {
+        question: createFaqDto.TC.question,
+      },
+      SC: {
+        question: createFaqDto.SC.question,
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -41,6 +47,8 @@ export class FaqService {
       _id: generatedAnswerId,
       answer: {
         EN: createFaqDto.answer.EN,
+        TC: createFaqDto.answer.TC,
+        SC: createFaqDto.answer.SC,
       },
       createdAt: new Date(),
       updatedAt: new Date(),
