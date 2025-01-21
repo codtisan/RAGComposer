@@ -27,7 +27,6 @@ export class FaqController {
 
   @Get('get/:name')
   async get(@Param('name') name: string) {
-    console.log(name);
     const faq = await this.faqService.getFAQ(name);
     return {
       statusCode: 200,

@@ -5,10 +5,14 @@ import { FAQ } from './schema/faq.schema';
 import { ObjectId } from 'mongodb';
 import { Databaselist, SystemCollection } from 'src/config/db.config';
 import { Answer } from './schema/answer.schema';
+import { RedisService } from 'src/database/redis';
 
 @Injectable()
 export class FaqService {
-  constructor(private readonly mongoService: MongoService) {}
+  constructor(
+    private readonly mongoService: MongoService,
+    private readonly redisService: RedisService,
+  ) {}
   public async validateFaq(name: string): Promise<void> {
     const faq = await this.mongoService.find<FAQ>(Databaselist.SYSTEM, SystemCollection.FAQ, {
       name: name,
@@ -45,8 +49,14 @@ export class FaqService {
   }
 
   public async getFAQ(name: string): Promise<FAQ> {
-    return await this.mongoService.find<FAQ>(Databaselist.SYSTEM, SystemCollection.FAQ, {
+    const faqInMemory = await this.redisService.get<FAQ>(`${SystemCollection.FAQ}:${name}`);
+    if (faqInMemory) {
+      return faqInMemory;
+    }
+    const faq = await this.mongoService.find<FAQ>(Databaselist.SYSTEM, SystemCollection.FAQ, {
       name: name,
     });
+    await this.redisService.set(`${SystemCollection.FAQ}:${name}`, faq);
+    return faq;
   }
 }
