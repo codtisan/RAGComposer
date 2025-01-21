@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { MongoClient, WithId } from 'mongodb';
 import { Databaselist, SystemCollection } from 'src/config/db.config';
 import ServerConfig from 'src/config/server.config';
-import { None, Option, Some } from 'ts-results';
 
 @Injectable()
 export class MongoService {
@@ -34,10 +33,10 @@ export class MongoService {
     }
   }
 
-  public async find<T>(dbName: Databaselist, col: SystemCollection, query: any): Promise<Option<WithId<T>>> {
+  public async find<T>(dbName: Databaselist, col: SystemCollection, query: any): Promise<WithId<T> | null> {
     try {
       const result = await this.client.db(dbName).collection(col).findOne(query);
-      return !result ? None : Some(result as WithId<T>);
+      return !result ? null : (result as WithId<T>);
     } catch (error) {
       throw new Error(`Error finding documents: ${error}`);
     }

@@ -17,7 +17,7 @@ export class UserService {
       email: createUserDto.email,
     });
 
-    if (userExists.some) {
+    if (userExists) {
       throw new UnauthorizedException('User already exists');
     }
 
@@ -30,14 +30,14 @@ export class UserService {
     const user = await this.mongoService.find<User>(Databaselist.SYSTEM, SystemCollection.USERS, {
       email: loginUserDto.email,
     });
-    if (!user.some) {
+    if (!user) {
       throw new UnauthorizedException('User not found');
     }
-    const isPasswordMatch = await checkPassword(loginUserDto.password, user.unwrap().password);
+    const isPasswordMatch = await checkPassword(loginUserDto.password, user.password);
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const token = await this.jwtService.signAsync({ email: user.unwrap().email });
+    const token = await this.jwtService.signAsync({ email: user.email });
     return { token };
   }
 }

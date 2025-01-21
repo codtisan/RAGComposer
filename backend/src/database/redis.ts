@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import Redis from 'ioredis';
 import ServerConfig from 'src/config/server.config';
-import { None, Option, Some } from 'ts-results';
 
 @Injectable()
 export class RedisService {
@@ -21,10 +20,10 @@ export class RedisService {
     }
   }
 
-  public async get<T>(key: string): Promise<Option<T>> {
+  public async get<T>(key: string): Promise<T | null> {
     try {
       const value = await this.client.get(key);
-      return !value ? None : Some(JSON.parse(value));
+      return !value ? null : JSON.parse(value);
     } catch (error) {
       throw new Error(`Error getting key ${key}: ${error}`);
     }
