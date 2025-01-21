@@ -25,5 +25,10 @@ export class LoginUserDto {
 }
 
 export class UserLoginResponseDto {
-  token: string;
+  statusCode: number;
+  message: string;
+  timestamp: Date;
+  data: {
+    token: string;
+  };
 }

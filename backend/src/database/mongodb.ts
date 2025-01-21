@@ -41,4 +41,29 @@ export class MongoService {
       throw new Error(`Error finding documents: ${error}`);
     }
   }
+
+  public async batchFind<T>(dbName: Databaselist, col: SystemCollection, query: any): Promise<WithId<T>[]> {
+    try {
+      const result = await this.client.db(dbName).collection<T>(col).find(query).toArray();
+      return !result ? [] : result;
+    } catch (error) {
+      throw new Error(`Error batch finding documents: ${error}`);
+    }
+  }
+
+  public async delete(dbName: Databaselist, col: SystemCollection, query: any): Promise<void> {
+    try {
+      await this.client.db(dbName).collection(col).deleteOne(query);
+    } catch (error) {
+      throw new Error(`Error deleting documents: ${error}`);
+    }
+  }
+
+  public async batchDelete(dbName: Databaselist, col: SystemCollection, query: any): Promise<void> {
+    try {
+      await this.client.db(dbName).collection(col).deleteMany(query);
+    } catch (error) {
+      throw new Error(`Error batch deleting documents: ${error}`);
+    }
+  }
 }
