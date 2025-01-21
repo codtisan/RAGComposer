@@ -11,4 +11,7 @@ export default () => ({
     port: parseInt(process.env.MEMORY_DB_PORT) || 6379,
     password: process.env.MEMORY_DB_PASSWORD || 'admin',
   },
+  es: {
+    url: process.env.ES_URL || 'http://localhost:9200',
+  },
 });

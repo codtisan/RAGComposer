@@ -23,7 +23,7 @@ import { ElasticsearchModule } from '@nestjs/elasticsearch';
       signOptions: { expiresIn: '600s' },
     }),
     ElasticsearchModule.register({
-      node: ['http://localhost:9200'],
+      node: [ServerConfig().es.url],
     }),
     UserModule,
     FaqModule,
