@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { FaqModule } from './api/faq/faq.module';
 import { ChatModule } from './api/chat/chat.module';
 import { AuditLogMiddleware } from './middleware/audit-log.middleware';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
 
 @Module({
   imports: [
@@ -20,6 +21,9 @@ import { AuditLogMiddleware } from './middleware/audit-log.middleware';
       global: true,
       secret: ServerConfig().jwtSecret,
       signOptions: { expiresIn: '600s' },
+    }),
+    ElasticsearchModule.register({
+      node: ['http://localhost:9200'],
     }),
     UserModule,
     FaqModule,

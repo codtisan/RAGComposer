@@ -1,10 +1,26 @@
 import { Injectable } from '@nestjs/common';
+import { ElasticsearchService } from '@nestjs/elasticsearch';
+import { ESIndexList } from 'src/config/db.config';
 
 @Injectable()
-export class ElasticsearchService {
-  constructor() {}
-  public async insertDoc(): Promise<void> {}
-  public async batchInsertDoc(): Promise<void> {}
-  public async searchDocs(): Promise<void> {}
-  public async deleteDoc(): Promise<void> {}
+export class SearchService {
+  constructor(private readonly elasticsearchService: ElasticsearchService) {}
+  public async insertDoc<T>(indexName: ESIndexList, doc: T): Promise<void> {
+    await this.elasticsearchService.index({
+      index: indexName,
+      body: doc,
+    });
+  }
+  public async searchDocs(indexName: ESIndexList, query: any): Promise<void> {
+    await this.elasticsearchService.search({
+      index: indexName,
+      body: {
+        query: {
+          multi_match: {
+            query: query,
+          },
+        },
+      },
+    });
+  }
 }
