@@ -24,6 +24,25 @@ export class LoginUserDto {
   password: string;
 }
 
+export class ForgotPasswordDto {
+  @IsEmail()
+  @IsString()
+  @IsNotEmpty()
+  email: string;
+}
+
+export class ResetPasswordDto {
+  @IsEmail()
+  @IsString()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  password: string;
+}
+
 export class UserLoginResponseDto {
   statusCode: number;
   message: string;

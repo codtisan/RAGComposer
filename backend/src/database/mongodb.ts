@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MongoClient, WithId } from 'mongodb';
+import { Filter, MongoClient, WithId } from 'mongodb';
 import { Databaselist, SystemCollection } from 'src/config/db.config';
 import ServerConfig from 'src/config/server.config';
 
@@ -49,7 +49,7 @@ export class MongoService {
     }
   }
 
-  public async find<T>(dbName: Databaselist, col: SystemCollection, query: any): Promise<WithId<T> | null> {
+  public async find<T>(dbName: Databaselist, col: SystemCollection, query: Filter<T>): Promise<WithId<T> | null> {
     try {
       const result = await this.client.db(dbName).collection<T>(col).findOne(query);
       return !result ? null : result;
@@ -58,7 +58,7 @@ export class MongoService {
     }
   }
 
-  public async batchFind<T>(dbName: Databaselist, col: SystemCollection, query: any): Promise<WithId<T>[]> {
+  public async batchFind<T>(dbName: Databaselist, col: SystemCollection, query: Filter<T>): Promise<WithId<T>[]> {
     try {
       const result = await this.client.db(dbName).collection<T>(col).find(query).toArray();
       return !result ? [] : result;
@@ -67,19 +67,24 @@ export class MongoService {
     }
   }
 
-  public async delete(dbName: Databaselist, col: SystemCollection, query: any): Promise<void> {
+  public async delete<T>(dbName: Databaselist, col: SystemCollection, query: Filter<T>): Promise<void> {
     try {
-      await this.client.db(dbName).collection(col).deleteOne(query);
+      await this.client.db(dbName).collection<T>(col).deleteOne(query);
     } catch (error) {
       throw new Error(`Error deleting documents: ${error}`);
     }
   }
 
-  public async batchDelete(dbName: Databaselist, col: SystemCollection, query: any): Promise<void> {
+  public async update<T>(
+    dbName: Databaselist,
+    col: SystemCollection,
+    query: Filter<T>,
+    updatedDoc: Partial<T>,
+  ): Promise<void> {
     try {
-      await this.client.db(dbName).collection(col).deleteMany(query);
+      await this.client.db(dbName).collection<T>(col).updateOne(query, { $set: updatedDoc });
     } catch (error) {
-      throw new Error(`Error batch deleting documents: ${error}`);
+      throw new Error(`Error updating documents: ${error}`);
     }
   }
 }
