@@ -19,8 +19,8 @@ export class SearchService {
       body: doc,
     });
   }
-  public async searchDocs(indexName: ESIndexList, query: any): Promise<void> {
-    await this.elasticsearchService.search({
+  public async searchDocs<T>(indexName: ESIndexList, query: any): Promise<T[]> {
+    const results = await this.elasticsearchService.search({
       index: indexName,
       body: {
         query: {
@@ -30,5 +30,6 @@ export class SearchService {
         },
       },
     });
+    return results.hits.hits.map((hit) => hit._source as T);
   }
 }
