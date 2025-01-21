@@ -8,6 +8,7 @@ import { RedisService } from './database/redis';
 import { UserModule } from './api/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { FaqModule } from './api/faq/faq.module';
+import { ChatModule } from './api/chat/chat.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { FaqModule } from './api/faq/faq.module';
     }),
     UserModule,
     FaqModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService, MongoService, RedisService],
