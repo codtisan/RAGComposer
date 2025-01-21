@@ -4,4 +4,6 @@ export enum Databaselist {
 
 export enum SystemCollection {
   USERS = 'users',
+  FAQ = 'faq',
+  ANSWER = 'answer',
 }
